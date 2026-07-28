@@ -8,6 +8,7 @@ alwaysApply: true
 - 本项目是 `AI Knowledge Agent`，定位为面向文档管理、AI 问答和可追溯知识检索的 AI 知识库 SaaS。
 - 按 `docs/ROADMAP.md` 的 Milestone 推进。除非用户明确要求，不要实现后续 Milestone 的功能。
 - MVP 范围保持为单用户所有者模型：用户只能管理自己的知识库、文档、会话和消息。
+- 知识库协作和 `knowledge_base_members` 属于后续演进，只在文档中预留，不提前进入 MVP 实现。
 - 在对应 Milestone 之前，不要引入多租户组织、支付、复杂 RBAC、Agent 工作流、Redis、队列、对象存储或 Nginx。
 - 数据库、接口或模块设计应从 PRD 和 `docs/BUSINESS_MODEL.md` 推导，不要直接跳到代码实现。
 - 架构变更要对齐 `docs/ARCHITECTURE.md`，数据库变更要对齐 `docs/DATABASE_DESIGN.md`。

@@ -309,6 +309,68 @@ and conversations.deleted_at is null
 
 ## 8. 后续演进
 
+### 知识库协作
+
+如果后续支持邀请其他用户共同维护或查看知识库，需要增加知识库成员表：
+
+```text
+knowledge_base_members
+```
+
+建议字段：
+
+```text
+id                 uuid primary key
+knowledge_base_id  uuid not null references knowledge_bases(id)
+user_id            uuid not null references users(id)
+role               varchar not null
+status             varchar not null
+invited_by         uuid null references users(id)
+created_at         timestamp not null
+updated_at         timestamp not null
+removed_at         timestamp null
+```
+
+角色建议：
+
+```text
+owner
+admin
+editor
+viewer
+```
+
+状态建议：
+
+```text
+pending
+active
+removed
+```
+
+索引建议：
+
+```text
+unique index knowledge_base_members_kb_user_unique on knowledge_base_members(knowledge_base_id, user_id)
+index knowledge_base_members_user_id_idx on knowledge_base_members(user_id)
+index knowledge_base_members_knowledge_base_id_idx on knowledge_base_members(knowledge_base_id)
+```
+
+协作阶段的关系会从：
+
+```text
+users 1:N knowledge_bases
+```
+
+演进为：
+
+```text
+users 1:N knowledge_base_members
+knowledge_bases 1:N knowledge_base_members
+```
+
+这不是 MVP 必需表。第一版先保留 `knowledge_bases.user_id` 作为创建者和所有者，后续再通过成员表表达协作访问。
+
 ### 多租户
 
 如果后续加入企业组织，需要增加：
@@ -368,6 +430,8 @@ document_jobs
 
 后续如果加入组织，可以将知识库所有权从 `user_id` 演进为 `organization_id`，或同时保留 `owner_user_id` 作为创建者字段。
 
+如果先加入知识库协作，但暂不引入组织，可以保留 `knowledge_bases.user_id` 作为创建者字段，并增加 `knowledge_base_members` 表表达成员访问关系。这样可以支持邀请协作者和只读成员，而不需要立刻引入完整多租户模型。
+
 ### 为什么 `documents` 不直接保存 `user_id`
 
 文档天然属于某个知识库，而知识库已经属于某个用户。如果 `documents` 同时保存 `user_id`，会产生冗余归属字段：当文档的 `knowledge_base_id` 和 `user_id` 不一致时，系统需要额外处理数据不一致问题。
@@ -413,6 +477,7 @@ document_jobs
 ### 核心取舍总结
 
 - 第一版不做多租户，先用所有者模型保证资源隔离。
+- 知识库协作会通过 `knowledge_base_members` 扩展为多对多关系，但不进入 MVP。
 - 文档表只保存元数据，RAG chunk 单独建表。
 - 会话可以为空知识库，支持普通 Chat 和 RAG Chat 两种模式。
 - 引用来源先存 metadata，复杂后再拆表。

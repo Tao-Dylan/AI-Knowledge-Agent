@@ -70,6 +70,29 @@ PRD 中的核心流程包括：
 User 1:N KnowledgeBase
 ```
 
+这是 MVP 的简化模型，表示一个知识库先由一个创建者拥有和管理。
+
+真实协作场景中，知识库可能被多个用户共同维护或查看，例如 A 创建知识库后邀请 B 编辑、邀请 C 只读查看。此时用户和知识库会演进为多对多关系：
+
+```text
+User N:M KnowledgeBase
+```
+
+多对多关系不应直接用简单关联表达，而应通过成员关系对象承载权限和邀请状态：
+
+```text
+User 1:N KnowledgeBaseMember
+KnowledgeBase 1:N KnowledgeBaseMember
+```
+
+`KnowledgeBaseMember` 不进入 MVP，但后续协作阶段会用于表达：
+
+- 谁可以访问某个知识库。
+- 谁可以维护某个知识库。
+- 谁只能查看某个知识库。
+- 谁发起了邀请。
+- 邀请是否已接受。
+
 ### 文档
 
 文档是知识库中的原始资料。
@@ -190,6 +213,7 @@ erDiagram
 会话       -> conversations
 消息       -> messages
 文档切片   -> document_chunks
+知识库成员 -> knowledge_base_members（后续协作阶段）
 ```
 
 推导原则：
@@ -227,11 +251,24 @@ User
 
 这个模型不需要角色表，也不需要组织表，就能支撑 MVP 的资源隔离。
 
+后续进入知识库协作阶段后，权限入口会从单一所有者模型演进为成员关系模型：
+
+```text
+User
+-> KnowledgeBaseMember
+-> KnowledgeBase
+-> Document
+-> DocumentChunk
+```
+
+届时权限判断不再只看 `knowledge_bases.user_id`，而是需要检查当前用户是否是该知识库的有效成员，以及成员角色是否允许执行当前操作。
+
 ## 7. 暂不进入 MVP 的对象
 
 以下对象暂不进入 MVP：
 
 - 组织：会引入多租户和成员关系。
+- 知识库成员：会引入邀请、协作角色和资源级权限。
 - 角色：会引入复杂 RBAC。
 - 权限策略：会引入资源级授权模型。
 - 支付订单：不属于知识库核心闭环。
