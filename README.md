@@ -19,6 +19,11 @@ AI Knowledge Agent 是一个 AI 知识库 SaaS 项目，用于文档管理、AI 
 - [架构设计](docs/ARCHITECTURE.md)
 - [数据库设计](docs/DATABASE_DESIGN.md)
 
+## Milestone 1 文档
+
+- [工程模型分析](docs/MILESTONE_1_ENGINEERING_MODEL.md)
+- [实施计划](docs/MILESTONE_1_IMPLEMENTATION_PLAN.md)
+
 ## MVP 范围
 
 第一版聚焦用户认证、知识库 CRUD、文档管理、AI Chat、流式响应和聊天历史。多租户组织、支付、复杂 RBAC 和 Agent 工作流会在后续阶段再考虑。

@@ -40,6 +40,11 @@ PRD
 
 目标：搭建可运行的 Monorepo 工程骨架。
 
+阶段产出：
+
+- 工程模型分析：说明 Monorepo、前后端拆分、pnpm workspace、Prisma 和 PostgreSQL 的工程边界。
+- 实施计划：拆解根 workspace、前端、后端、数据库、Prisma 和验证步骤。
+
 范围：
 
 - 创建 `apps/web` Next.js 前端项目。

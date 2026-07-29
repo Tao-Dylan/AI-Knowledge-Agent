@@ -61,7 +61,9 @@ ai-knowledge-agent
 │   ├── PRD.md
 │   ├── BUSINESS_MODEL.md
 │   ├── ARCHITECTURE.md
-│   └── DATABASE_DESIGN.md
+│   ├── DATABASE_DESIGN.md
+│   ├── MILESTONE_1_ENGINEERING_MODEL.md
+│   └── MILESTONE_1_IMPLEMENTATION_PLAN.md
 └── docker-compose.yml
 ```
 

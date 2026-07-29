@@ -12,6 +12,8 @@ alwaysApply: false
 - `docs/ARCHITECTURE.md` 用于描述系统边界、模块职责、请求流程、AI/RAG 演进、部署视角和设计取舍。
 - `docs/DATABASE_DESIGN.md` 用于描述实体、字段、关系、索引、权限校验、生命周期规则和数据模型依据。
 - `docs/ROADMAP.md` 用于描述 Milestone 顺序、交付内容、实现重点和完成标准。
+- `docs/MILESTONE_*_ENGINEERING_MODEL.md` 用于解释某个 Milestone 的工程或业务推导过程。
+- `docs/MILESTONE_*_IMPLEMENTATION_PLAN.md` 用于拆解某个 Milestone 的具体执行步骤和验证方式。
 - 文档应保持产品化、工程化表达，不要把项目描述成个人练习、作品集、求职或展示材料。
 - 修改产品范围、架构或数据模型时，要检查相关文档是否需要同步更新。
 - 新增或调整数据库表、接口或模块前，先确认业务模型文档是否已经说明对应业务对象和关系。
