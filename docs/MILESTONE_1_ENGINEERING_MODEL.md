@@ -93,6 +93,13 @@ Milestone 1 推荐使用 pnpm workspace。
 - 过早引入会增加配置理解成本。
 - MVP 阶段更需要清晰的工程边界，而不是复杂工具链。
 
+本项目当前固定运行时：
+
+```text
+Node.js >= 24.16.0
+pnpm 9.15.3
+```
+
 ## 6. `packages/shared` 是否现在创建
 
 暂不创建 `packages/shared`。

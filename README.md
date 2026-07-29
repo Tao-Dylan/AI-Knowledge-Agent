@@ -27,3 +27,48 @@ AI Knowledge Agent 是一个 AI 知识库 SaaS 项目，用于文档管理、AI 
 ## MVP 范围
 
 第一版聚焦用户认证、知识库 CRUD、文档管理、AI Chat、流式响应和聊天历史。多租户组织、支付、复杂 RBAC 和 Agent 工作流会在后续阶段再考虑。
+
+## 本地开发
+
+推荐运行时：
+
+- Node.js >= 24.16.0
+- pnpm 9.15.3
+
+安装依赖：
+
+```bash
+pnpm install
+```
+
+创建本地环境变量：
+
+```bash
+cp .env.example .env
+```
+
+启动 PostgreSQL：
+
+```bash
+pnpm db:up
+```
+
+启动前端（默认 http://localhost:3000）：
+
+```bash
+pnpm dev:web
+```
+
+启动后端（默认 http://localhost:3001）：
+
+```bash
+pnpm dev:server
+```
+
+校验 Prisma 配置：
+
+```bash
+pnpm --dir apps/server exec prisma validate
+```
+
+当前 Milestone 只包含工程骨架，不包含业务接口和数据库业务表。本地尚无业务模型时，`prisma migrate dev` 会显示 Already in sync，属预期。

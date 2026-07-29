@@ -1,0 +1,18 @@
+{
+  "name": "ai-knowledge-agent",
+  "private": true,
+  "packageManager": "pnpm@9.15.3",
+  "engines": {
+    "node": ">=24.16.0"
+  },
+  "scripts": {
+    "dev:web": "pnpm --dir apps/web dev",
+    "dev:server": "pnpm --dir apps/server start:dev",
+    "build:web": "pnpm --dir apps/web build",
+    "build:server": "pnpm --dir apps/server build",
+    "lint:web": "pnpm --dir apps/web lint",
+    "lint:server": "pnpm --dir apps/server lint",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down"
+  }
+}

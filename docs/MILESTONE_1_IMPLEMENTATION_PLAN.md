@@ -6,7 +6,7 @@
 
 **架构：** 根目录使用 pnpm workspace 管理 `apps/web` 和 `apps/server`。Milestone 1 只搭工程骨架，不实现用户、知识库、文档、聊天或 RAG 业务。
 
-**技术栈：** pnpm workspace、Next.js、React、TypeScript、Tailwind CSS、shadcn/ui、NestJS、Prisma、PostgreSQL、Docker Compose。
+**技术栈：** Node.js 24.16+、pnpm 9.15.3、pnpm workspace、Next.js、React、TypeScript、Tailwind CSS、shadcn/ui、NestJS、Prisma、PostgreSQL、Docker Compose。
 
 ## 全局约束
 
@@ -31,12 +31,16 @@
 
 **步骤：**
 
-- [ ] 创建根 `package.json`。
+- [x] 创建根 `package.json`。
 
 ```json
 {
   "name": "ai-knowledge-agent",
   "private": true,
+  "packageManager": "pnpm@9.15.3",
+  "engines": {
+    "node": ">=24.16.0"
+  },
   "scripts": {
     "dev:web": "pnpm --dir apps/web dev",
     "dev:server": "pnpm --dir apps/server start:dev",
@@ -50,7 +54,7 @@
 }
 ```
 
-- [ ] 创建 `pnpm-workspace.yaml`。
+- [x] 创建 `pnpm-workspace.yaml`。
 
 ```yaml
 packages:
@@ -58,7 +62,7 @@ packages:
   - "packages/*"
 ```
 
-- [ ] 创建 `.gitignore`。
+- [x] 创建 `.gitignore`。
 
 ```gitignore
 node_modules
@@ -70,7 +74,7 @@ coverage
 .env.*.local
 ```
 
-- [ ] 创建 `.env.example`。
+- [x] 创建 `.env.example`。
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/ai_knowledge_agent?schema=public"
@@ -78,7 +82,7 @@ JWT_SECRET="change-me"
 AI_PROVIDER_API_KEY=""
 ```
 
-- [ ] 验证根 workspace 文件存在。
+- [x] 验证根 workspace 文件存在。
 
 ```bash
 test -f package.json
@@ -95,20 +99,20 @@ test -f .env.example
 
 **步骤：**
 
-- [ ] 使用 Next.js 初始化前端。
+- [x] 使用 Next.js 初始化前端。
 
 ```bash
 pnpm create next-app@latest apps/web --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm
 ```
 
-- [ ] 确认前端目录存在。
+- [x] 确认前端目录存在。
 
 ```bash
 test -f apps/web/package.json
 test -d apps/web/src/app
 ```
 
-- [ ] 创建 Milestone 1 初始页面占位。
+- [x] 创建 Milestone 1 初始页面占位。
 
 推荐先建立路由入口：
 
@@ -121,7 +125,7 @@ apps/web/src/app/knowledge-bases/[id]/page.tsx
 
 这些页面只需要渲染页面标题，不接入真实接口。
 
-- [ ] 启动前端验证。
+- [x] 启动前端验证。
 
 ```bash
 pnpm dev:web
@@ -137,7 +141,7 @@ pnpm dev:web
 
 **步骤：**
 
-- [ ] 在前端工程中初始化 shadcn/ui。
+- [x] 在前端工程中初始化 shadcn/ui。
 
 ```bash
 pnpm --dir apps/web dlx shadcn@latest init
@@ -151,13 +155,15 @@ base color: neutral
 css variables: yes
 ```
 
-- [ ] 安装基础组件。
+- [x] 安装基础组件。
 
 ```bash
-pnpm --dir apps/web dlx shadcn@latest add button input card form
+pnpm --dir apps/web dlx shadcn@latest add button input card
 ```
 
-- [ ] 验证前端 lint。
+`form` 组件等到用户系统阶段根据真实表单需求引入，避免在工程骨架阶段提前安装表单状态和校验依赖。
+
+- [x] 验证前端 lint。
 
 ```bash
 pnpm lint:web
@@ -172,20 +178,20 @@ pnpm lint:web
 
 **步骤：**
 
-- [ ] 使用 Nest CLI 初始化后端。
+- [x] 使用 Nest CLI 初始化后端。
 
 ```bash
 pnpm dlx @nestjs/cli new apps/server --package-manager pnpm --skip-git
 ```
 
-- [ ] 确认后端目录存在。
+- [x] 确认后端目录存在。
 
 ```bash
 test -f apps/server/package.json
 test -d apps/server/src
 ```
 
-- [ ] 创建后端模块目录。
+- [x] 创建后端模块目录。
 
 ```text
 apps/server/src/auth
@@ -200,7 +206,7 @@ apps/server/src/common
 
 这些目录只作为模块边界，不实现业务逻辑。
 
-- [ ] 启动后端验证。
+- [x] 启动后端验证。
 
 ```bash
 pnpm dev:server
@@ -218,7 +224,7 @@ pnpm dev:server
 
 **步骤：**
 
-- [ ] 创建 `docker-compose.yml`。
+- [x] 创建 `docker-compose.yml`。
 
 ```yaml
 services:
@@ -239,13 +245,13 @@ volumes:
   postgres_data:
 ```
 
-- [ ] 启动 PostgreSQL。
+- [x] 启动 PostgreSQL。
 
 ```bash
 pnpm db:up
 ```
 
-- [ ] 验证容器状态。
+- [x] 验证容器状态。
 
 ```bash
 docker compose ps
@@ -263,20 +269,20 @@ docker compose ps
 
 **步骤：**
 
-- [ ] 安装 Prisma 依赖。
+- [x] 安装 Prisma 依赖。
 
 ```bash
 pnpm --dir apps/server add @prisma/client
 pnpm --dir apps/server add -D prisma
 ```
 
-- [ ] 初始化 Prisma。
+- [x] 初始化 Prisma。
 
 ```bash
 pnpm --dir apps/server prisma init
 ```
 
-- [ ] 确认 `schema.prisma` 只包含 datasource 和 generator，不创建业务模型。
+- [x] 确认 `schema.prisma` 只包含 datasource 和 generator，不创建业务模型。
 
 ```prisma
 generator client {
@@ -289,7 +295,7 @@ datasource db {
 }
 ```
 
-- [ ] 验证 Prisma schema。
+- [x] 验证 Prisma schema。
 
 ```bash
 pnpm --dir apps/server prisma validate
@@ -305,7 +311,7 @@ pnpm --dir apps/server prisma validate
 
 **步骤：**
 
-- [ ] 在 README 中补充本地开发章节。
+- [x] 在 README 中补充本地开发章节。
 
 需要包含：
 
@@ -315,7 +321,7 @@ pnpm --dir apps/server prisma validate
 - 启动后端。
 - Prisma 校验。
 
-- [ ] 验证 README 链接仍然有效。
+- [x] 验证 README 链接仍然有效。
 
 ```bash
 test -f docs/ROADMAP.md
@@ -331,39 +337,39 @@ test -f docs/MILESTONE_1_IMPLEMENTATION_PLAN.md
 
 **步骤：**
 
-- [ ] 安装依赖。
+- [x] 安装依赖。
 
 ```bash
 pnpm install
 ```
 
-- [ ] 验证前端。
+- [x] 验证前端。
 
 ```bash
 pnpm lint:web
 pnpm build:web
 ```
 
-- [ ] 验证后端。
+- [x] 验证后端。
 
 ```bash
 pnpm lint:server
 pnpm build:server
 ```
 
-- [ ] 验证数据库服务。
+- [x] 验证数据库服务。
 
 ```bash
 docker compose ps
 ```
 
-- [ ] 验证 Prisma。
+- [x] 验证 Prisma。
 
 ```bash
 pnpm --dir apps/server prisma validate
 ```
 
-- [ ] 查看工作区状态。
+- [x] 查看工作区状态。
 
 ```bash
 git status --short
